@@ -1,0 +1,6 @@
+[submodule "yii"]
+	path = yii
+	url = https://github.com/yiisoft/yii.git
+[submodule "protected/extensions/eauth"]
+	path = protected/extensions/eauth
+	url = https://github.com/Nodge/yii-eauth.git
