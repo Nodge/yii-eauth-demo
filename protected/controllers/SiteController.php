@@ -5,7 +5,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
-	public function actions() 
+	public function actions()
 	{
 		return array();
 	}
@@ -52,8 +52,14 @@ class SiteController extends Controller
 				// successful authentication
 				if ($identity->authenticate()) {
 					Yii::app()->user->login($identity);
-										
-					// special redirect with closing popup window
+
+					// Save attributes of the VK.com to display it in layouts/main.php
+					if ($eauth->serviceName == 'vkontakte') {
+						$session = Yii::app()->session;
+						$session['vk'] = $eauth->attributes;
+					}
+
+					// redirect and close the popup window if needed
 					$eauth->redirect();
 				}
 				else {
