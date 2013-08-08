@@ -57,9 +57,9 @@ class SiteController extends Controller
 				if ($eauth->authenticate()) {
 					$identity = new EAuthUserIdentity($eauth);
 
-					//				var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
+//					var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
 
-					// Успешный вход
+					// successful authentication
 					if ($identity->authenticate()) {
 						Yii::app()->user->login($identity);
 						//var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
@@ -70,23 +70,23 @@ class SiteController extends Controller
 							$session['vk'] = $eauth->attributes;
 						}
 
-						// Специальный редирект с закрытием popup окна
+						// redirect and close the popup window if needed
 						$eauth->redirect();
 					}
 					else {
-						// Закрываем popup окно и перенаправляем на cancelUrl
+						// close popup window and redirect to cancelUrl
 						$eauth->cancel();
 					}
 				}
 
-				// Что-то пошло не так, перенаправляем на страницу входа
+				// Something went wrong, redirect back to login page
 				$this->redirect(array('site/login'));
 			}
 			catch (EAuthException $e) {
+				// save authentication error to session
 				Yii::app()->user->setFlash('error', 'EAuthException: '.$e->getMessage());
 
-				// Закрываем popup окно и принудительно перенаправляем на cancelUrl
-//				$eauth->cancel();
+				// close popup window and redirect to cancelUrl
 				$eauth->redirect($eauth->getCancelUrl());
 			}
 		}
