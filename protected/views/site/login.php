@@ -7,16 +7,22 @@ $this->breadcrumbs=array(
 
 <h1>Login</h1>
 
+<?php
+if (Yii::app()->user->hasFlash('error')) {
+	echo '<div class="form"><p class="errorSummary">'.Yii::app()->user->getFlash('error').'</p></div>';
+}
+?>
+
 <p>Please fill out the following form with your login credentials:</p>
 
 <div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'login-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
+	<?php $form=$this->beginWidget('CActiveForm', array(
+		'id'=>'login-form',
+		'enableClientValidation'=>true,
+		'clientOptions'=>array(
+			'validateOnSubmit'=>true,
+		),
+	)); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -44,12 +50,12 @@ $this->breadcrumbs=array(
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Login'); ?>
 	</div>
-	
+
 	<hr/>
 	<h2>Do you already have an account on one of these sites? Click the logo to log in with it here:</h2>
-	<?php 
-		$this->widget('ext.eauth.EAuthWidget');
+	<?php
+	$this->widget('ext.eauth.EAuthWidget');
 	?>
 
-<?php $this->endWidget(); ?>
+	<?php $this->endWidget(); ?>
 </div><!-- form -->

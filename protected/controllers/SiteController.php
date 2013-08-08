@@ -7,7 +7,13 @@ class SiteController extends Controller
 	 */
 	public function actions()
 	{
-		return array();
+		return array(
+			// page action renders "static" pages stored under 'protected/views/site/pages'
+			// They can be accessed via: index.php?r=site/page&view=FileName
+			'page'=>array(
+				'class'=>'CViewAction',
+			),
+		);
 	}
 
 	/**
@@ -26,52 +32,66 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
-	    if($error=Yii::app()->errorHandler->error)
-	    {
-	    	if(Yii::app()->request->isAjaxRequest)
-	    		echo $error['message'];
-	    	else
-	        	$this->render('error', $error);
-	    }
+		if($error=Yii::app()->errorHandler->error)
+		{
+			if(Yii::app()->request->isAjaxRequest)
+				echo $error['message'];
+			else
+				$this->render('error', $error);
+		}
 	}
 
 	/**
 	 * Displays the login page
 	 */
 	public function actionLogin()
-	{	
+	{
 		$serviceName = Yii::app()->request->getQuery('service');
 		if (isset($serviceName)) {
+			/** @var $eauth EAuthServiceBase */
 			$eauth = Yii::app()->eauth->getIdentity($serviceName);
 			$eauth->redirectUrl = Yii::app()->user->returnUrl;
 			$eauth->cancelUrl = $this->createAbsoluteUrl('site/login');
-			
-			if ($eauth->authenticate()) {
-				$identity = new EAuthUserIdentity($eauth);
-				
-				// successful authentication
-				if ($identity->authenticate()) {
-					Yii::app()->user->login($identity);
 
-					// Save attributes of the VK.com to display it in layouts/main.php
-					if ($eauth->serviceName == 'vkontakte') {
-						$session = Yii::app()->session;
-						$session['vk'] = $eauth->attributes;
+			try {
+				if ($eauth->authenticate()) {
+					$identity = new EAuthUserIdentity($eauth);
+
+					//				var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
+
+					// Успешный вход
+					if ($identity->authenticate()) {
+						Yii::app()->user->login($identity);
+						//var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
+
+						// Save attributes of the VK.com to display it in layouts/main.php
+						if ($eauth->serviceName == 'vkontakte') {
+							$session = Yii::app()->session;
+							$session['vk'] = $eauth->attributes;
+						}
+
+						// Специальный редирект с закрытием popup окна
+						$eauth->redirect();
 					}
+					else {
+						// Закрываем popup окно и перенаправляем на cancelUrl
+						$eauth->cancel();
+					}
+				}
 
-					// redirect and close the popup window if needed
-					$eauth->redirect();
-				}
-				else {
-					// close popup window and redirect to cancelUrl
-					$eauth->cancel();
-				}
+				// Что-то пошло не так, перенаправляем на страницу входа
+				$this->redirect(array('site/login'));
 			}
-			
-			// Something went wrong, redirect to login page
-			$this->redirect(array('site/login'));
+			catch (EAuthException $e) {
+				Yii::app()->user->setFlash('error', 'EAuthException: '.$e->getMessage());
+
+				// Закрываем popup окно и принудительно перенаправляем на cancelUrl
+//				$eauth->cancel();
+				$eauth->redirect($eauth->getCancelUrl());
+			}
 		}
-		
+
+
 		$model=new LoginForm;
 
 		// if it is ajax validation request
