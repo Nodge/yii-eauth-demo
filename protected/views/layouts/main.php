@@ -13,34 +13,6 @@
 
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-	
-	<style type="text/css">
-		#logo {
-			float: left;
-		}
-		
-		.user {
-			float: right;
-			padding: 10px 20px;
-		}
-		
-		.user .photo {
-			float: left;
-		}
-		
-		.user .info {
-			padding-left: 60px; 
-			font-size: 80%;
-		}
-		
-		.user .info p {
-			margin: 0;
-		}
-		
-		.user .info .name {
-			font-size: 140%;
-		}
-	</style>
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
@@ -51,23 +23,6 @@
 
 	<div id="header" class="clearfix">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-		<?php		
-			$session = Yii::app()->session;
-			if (isset($session['vk'])) : ?>
-		<div class="user clearfix">
-			<?php $vk = $session['vk']; ?>
-			<div class="photo">
-				<a href="<?php echo $vk['url']; ?>">
-				  <?php echo CHtml::image($vk['photo'], $vk['name']); ?>
-				</a>
-			</div>
-			<div class="info">
-				<p class="name"><?php echo CHtml::link($vk['name'], $vk['url']); ?></p>
-				<p class="username">Username: <?php echo $vk['username']; ?></p>
-				<p class="timezone">Timezone: <?php echo $vk['timezone']; ?></p>
-			</div>
-		</div>
-		<?php endif; ?>
 	</div><!-- header -->
 
 	<div id="mainmenu">
@@ -79,11 +34,21 @@
 			),
 		)); ?>
 	</div><!-- mainmenu -->
+
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
+
+	<?php
+		$session = Yii::app()->session;
+		if (isset($session['eauth_profile'])) {
+			echo '<div style="padding: 20px;"><strong>EAuth profile:</strong><br/>';
+			CVarDumper::dump($session['eauth_profile'], 10, true);
+			echo '</div>';
+		}
+	?>
 
 	<?php echo $content; ?>
 
@@ -95,7 +60,13 @@
 
 </div><!-- page -->
 
-<!-- GitHub.com --><a href="http://github.com/Nodge/yii-eauth"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a><!-- /GitHub.com -->
+<!-- GitHub.com --><a href="https://github.com/Nodge/yii-eauth"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a><!-- /GitHub.com -->
+
+<?php
+	if (file_exists(__DIR__.'/_main_analytics.php')) {
+		require '_main_analytics.php';
+	}
+?>
 
 </body>
 </html>

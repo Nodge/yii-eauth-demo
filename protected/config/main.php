@@ -92,7 +92,7 @@ return array(
 				),
 				'vkontakte' => array(
 					// register your app here: https://vk.com/editapp?act=create&site=1
-					'class' => 'application.components.VKontakteAdvancedOAuthService',
+					'class' => 'VKontakteOAuthService',
 					'client_id' => '',
 					'client_secret' => '',
 					'title' => 'VKontakte',
@@ -116,14 +116,14 @@ return array(
 					'client_id' => '',
 					'client_secret' => '',
 				),
-				/*'odnoklassniki' => array(
+				'odnoklassniki' => array(
                     // register your app here: http://www.odnoklassniki.ru/dk?st.cmd=appsInfoMyDevList&st._aid=Apps_Info_MyDev
                     'class' => 'OdnoklassnikiOAuthService',
                     'client_id' => '...',
                     'client_public' => '...',
                     'client_secret' => '...',
                     'title' => 'Odnokl.',
-                ),*/
+                ),
 			),
 		),
 		'loid' => array(
@@ -139,7 +139,7 @@ return array(
 			'showScriptName' => false,
 			'rules' => array(
 				'' => 'site/index',
-				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|mailru|moikrug|github|live)>' => 'site/login',
+				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|mailru|moikrug|github|live|odnoklassniki)>' => 'site/login',
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 			),

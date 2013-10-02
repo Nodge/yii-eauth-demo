@@ -64,11 +64,9 @@ class SiteController extends Controller
 						Yii::app()->user->login($identity);
 						//var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
 
-						// Save attributes of the VK.com to display it in layouts/main.php
-						if ($eauth->serviceName == 'vkontakte') {
-							$session = Yii::app()->session;
-							$session['vk'] = $eauth->attributes;
-						}
+						// Save the attributes to display it in layouts/main.php
+						$session = Yii::app()->session;
+						$session['eauth_profile'] = $eauth->attributes;
 
 						// redirect and close the popup window if needed
 						$eauth->redirect();

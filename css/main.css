@@ -227,3 +227,10 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+
+.auth-services .auth-service {
+	display: inline-block;
+	float: none;
+	vertical-align: top;
+}
