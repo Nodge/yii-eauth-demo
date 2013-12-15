@@ -84,6 +84,9 @@ return array(
 					'client_id' => '',
 					'client_secret' => '',
 				),
+				'steam' => array(
+					'class' => 'SteamOpenIDService',
+				),
 				'live' => array(
 					// register your app here: https://manage.dev.live.com/Applications/Index
 					'class' => 'LiveOAuthService',
@@ -139,7 +142,7 @@ return array(
 			'showScriptName' => false,
 			'rules' => array(
 				'' => 'site/index',
-				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|mailru|moikrug|github|live|odnoklassniki)>' => 'site/login',
+				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|steam|mailru|moikrug|github|live|odnoklassniki)>' => 'site/login',
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 			),
