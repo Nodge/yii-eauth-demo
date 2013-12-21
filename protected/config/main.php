@@ -84,6 +84,9 @@ return array(
 					'client_id' => '',
 					'client_secret' => '',
 				),
+				'yahoo' => array(
+					'class' => 'YahooOpenIDService',
+				),
 				'steam' => array(
 					'class' => 'SteamOpenIDService',
 				),
@@ -142,7 +145,7 @@ return array(
 			'showScriptName' => false,
 			'rules' => array(
 				'' => 'site/index',
-				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|steam|mailru|moikrug|github|live|odnoklassniki)>' => 'site/login',
+				'login/<service:(google|google-oauth|yandex|yandex-oauth|twitter|linkedin|vkontakte|facebook|steam|yahoo|mailru|moikrug|github|live|odnoklassniki)>' => 'site/login',
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 			),
