@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 <?php
 if (Yii::app()->user->hasFlash('error')) {
-	echo '<div class="form"><p class="errorSummary">'.Yii::app()->user->getFlash('error').'</p></div>';
+	echo '<div class="form"><p class="errorSummary">'.CHtml::encode(Yii::app()->user->getFlash('error')).'</p></div>';
 }
 ?>
 
