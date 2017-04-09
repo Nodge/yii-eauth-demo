@@ -45,19 +45,12 @@ return array(
 			'class' => 'ext.eauth.EAuth',
 			//'popup' => false,
 			'services' => array(
-				'google' => array(
-					'class' => 'GoogleOpenIDService',
-				),
 				'google-oauth' => array(
 					// register your app here: https://code.google.com/apis/console/
 					'class' => 'GoogleOAuthService',
 					'client_id' => '',
 					'client_secret' => '',
 					'title' => 'Google (OAuth2)',
-				),
-				'yandex' => array(
-					'class' => 'YandexOpenIDService',
-					'title' => 'Yandex',
 				),
 				'yandex-oauth' => array(
 					// register your app here: https://oauth.yandex.ru/client/my
